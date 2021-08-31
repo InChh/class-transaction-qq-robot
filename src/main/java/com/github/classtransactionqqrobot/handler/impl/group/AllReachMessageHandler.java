@@ -1,4 +1,4 @@
-package com.github.classtransactionqqrobot.handler.impl;
+package com.github.classtransactionqqrobot.handler.impl.group;
 
 import com.github.classtransactionqqrobot.entity.Dormitory;
 import com.github.classtransactionqqrobot.service.DormitoryService;
@@ -26,7 +26,7 @@ public class AllReachMessageHandler extends AbstractGroupMessageHandler {
 
     @Override
     public boolean canHandle(String text) {
-        return text.contains("齐");
+        return text.startsWith("齐");
     }
 
     @Override

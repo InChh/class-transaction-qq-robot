@@ -1,4 +1,4 @@
-package com.github.classtransactionqqrobot.handler.impl;
+package com.github.classtransactionqqrobot.handler.impl.group;
 
 import com.github.classtransactionqqrobot.handler.IMessageHandler;
 import com.github.classtransactionqqrobot.service.DormitoryService;
