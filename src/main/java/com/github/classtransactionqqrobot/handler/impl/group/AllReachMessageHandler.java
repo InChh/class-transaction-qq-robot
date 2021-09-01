@@ -1,8 +1,10 @@
-package com.github.classtransactionqqrobot.handler.impl.groupmessage;
+package com.github.classtransactionqqrobot.handler.impl.group;
 
 import com.github.classtransactionqqrobot.entity.Dormitory;
+import com.github.classtransactionqqrobot.service.DormitoryService;
 import love.forte.simbot.api.message.events.MsgGet;
 import love.forte.simbot.listener.ListenerContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,8 +12,16 @@ import org.springframework.stereotype.Component;
  * @author In_Chh
  * @since 1.0
  */
-@Component("allReachMessageHandler")
+@Component
 public class AllReachMessageHandler extends AbstractGroupMessageHandler {
+    public AllReachMessageHandler() {
+        super();
+    }
+
+    @Autowired
+    public AllReachMessageHandler(DormitoryService dormitoryService) {
+        super(dormitoryService);
+    }
 
     @Override
     public boolean canHandle(String text) {
