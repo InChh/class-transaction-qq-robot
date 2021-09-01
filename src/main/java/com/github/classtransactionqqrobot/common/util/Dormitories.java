@@ -1,8 +1,6 @@
 package com.github.classtransactionqqrobot.common.util;
 
 import com.github.classtransactionqqrobot.entity.Dormitory;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,8 +8,6 @@ import java.util.stream.Collectors;
 /**
  * @author In_Chh
  */
-@Repository
-@ConfigurationProperties(prefix = "transaction-bot.dormitories")
 public class Dormitories {
     private List<Dormitory> dormitoryList;
 

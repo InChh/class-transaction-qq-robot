@@ -2,7 +2,6 @@ package com.github.classtransactionqqrobot.handler.impl.groupmessage;
 
 import com.github.classtransactionqqrobot.entity.Dormitory;
 import love.forte.simbot.api.message.events.MsgGet;
-import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.listener.ListenerContext;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ public class AllReachMessageHandler extends AbstractGroupMessageHandler {
     }
 
     @Override
-    public void handle(MsgGet msg, MsgSender sender, ListenerContext listenerContext) {
+    public void doHandle(MsgGet msg, ListenerContext listenerContext) {
         final String accountCode = msg.getAccountInfo().getAccountCode();
         final Dormitory dorm = dormitoryService.getDormByMasterCode(accountCode);
         dorm.setCurrentPeople(dorm.getTotalPeople());

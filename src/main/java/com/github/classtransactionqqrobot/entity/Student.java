@@ -7,6 +7,10 @@ package com.github.classtransactionqqrobot.entity;
  */
 public class Student {
     /**
+     * 学号
+     */
+    private String id;
+    /**
      * 学生姓名
      */
     private String name;
@@ -41,5 +45,13 @@ public class Student {
 
     public void setRole(ClassRole role) {
         this.role = role;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

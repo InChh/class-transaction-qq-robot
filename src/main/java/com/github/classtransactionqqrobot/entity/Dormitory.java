@@ -96,18 +96,18 @@ public class Dormitory {
 
     public void setPeopleNotReachList(List<Student> peopleNotReachList) {
         this.peopleNotReachList = peopleNotReachList;
-        setCurrentPeople(this.totalPeople-peopleNotReachList.size());
+        setCurrentPeople(this.totalPeople - peopleNotReachList.size());
     }
 
     @Override
     public String toString() {
-        return "Dormitory{" +
-                "buildingId=" + buildingId +
-                ", roomId=" + roomId +
-                ", dormMasterCode='" + dormMasterCode + '\'' +
-                ", totalPeople=" + totalPeople +
-                ", currentPeople=" + currentPeople +
-                ", peopleNotReachList=" + peopleNotReachList +
-                '}';
+        final StringBuilder s = new StringBuilder()
+                .append(buildingId).append("栋")
+                .append(roomId).append(" ")
+                .append(currentPeople).append("/").append(totalPeople);
+        if (peopleNotReachList.size() != 0) {
+            s.append("，").append("未归").append(peopleNotReachList);
+        }
+        return s.toString();
     }
 }

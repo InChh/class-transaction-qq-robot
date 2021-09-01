@@ -1,7 +1,6 @@
 package com.github.classtransactionqqrobot.handler;
 
 import love.forte.simbot.api.message.events.MsgGet;
-import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.listener.ListenerContext;
 
 /**
@@ -24,9 +23,9 @@ public interface IMessageHandler {
      * 处理消息
      *
      * @param msg             监听消息
-     * @param sender          送信器
      * @param listenerContext 上下文
      * @since 1.0
+     * @return 返回的消息字符串
      */
-    void handle(MsgGet msg, MsgSender sender, ListenerContext listenerContext);
+    String handle(MsgGet msg, ListenerContext listenerContext);
 }

@@ -10,8 +10,7 @@ import java.util.stream.Collectors;
 /**
  * @author In_Chh
  */
-@Repository
-@ConfigurationProperties(prefix = "transaction-bot.students")
+
 public class Students {
     List<Student> studentList;
 

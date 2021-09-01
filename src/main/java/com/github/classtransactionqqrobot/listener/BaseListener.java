@@ -1,21 +1,20 @@
 package com.github.classtransactionqqrobot.listener;
 
-import com.github.classtransactionqqrobot.common.constant.GroupConstant;
+import com.github.classtransactionqqrobot.handler.IMessageHandler;
 import com.github.classtransactionqqrobot.service.DormitoryService;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
-import love.forte.simbot.api.sender.Sender;
+import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
 import love.forte.simbot.listener.ListenerContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 消息监听器基类
@@ -23,25 +22,29 @@ import java.util.stream.Collectors;
  * @author In_Chh
  */
 @Component
-@ConfigurationProperties(prefix = "transaction-bot.listener-action")
 public class BaseListener {
+    Logger logger = LoggerFactory.getLogger(BaseListener.class);
     /**
-     * 消息到方法名的映射信息
+     * 消息处理器列表
      */
-    private Map<String, String> actionMap;
+    private List<IMessageHandler> messageHandlerList;
 
     protected DormitoryService dormitoryService;
+
+    private String dormGroupName;
 
     public BaseListener() {
     }
 
     @Autowired
-    public BaseListener(DormitoryService dormitoryService) {
+    public BaseListener(List<IMessageHandler> messageHandlerList, DormitoryService dormitoryService, String dormGroupName) {
+        this.messageHandlerList = messageHandlerList;
         this.dormitoryService = dormitoryService;
+        this.dormGroupName = dormGroupName;
     }
 
     /**
-     * 监听寝室群消息,根据不同的消息内容，调用相应的方法
+     * 监听并处理寝室群消息
      *
      * @param msg             群成员发送的消息容器
      * @param sender          送信器
@@ -50,47 +53,43 @@ public class BaseListener {
      */
     @OnGroup
     @Filter(value = "#", matchType = MatchType.STARTS_WITH, trim = true)
-    public void dispacher(GroupMsg msg, Sender sender, ListenerContext listenerContext) {
+    public void dispacher(GroupMsg msg, MsgSender sender, ListenerContext listenerContext) {
         //获取去掉前缀#后的消息文本
         final String text = Objects.requireNonNull(msg.getText()).replace("#", "");
-        //根据发送的消息，获取操作类型，调用相应方法
-        final String action = getAction(text);
+        //消息是否已经经过处理的标志
+        boolean handleFlag = false;
+        //回复的消息字符串
+        String str = null;
         //判断是否为指定寝室群
         final String groupName = msg.getGroupInfo().getGroupName();
-
-        if (GroupConstant.DORM_GROUP_NAME.equals(groupName)) {
-            final Method method;
-            try {
-                method = getClass().getDeclaredMethod(action, GroupMsg.class, Sender.class, ListenerContext.class);
-                method.invoke(this, msg, sender, listenerContext);
-            } catch (Exception e) {
-                sender.sendGroupMsg(msg, "发生异常：" + e.getMessage());
+        if (dormGroupName.equals(groupName)) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("开始遍历消息处理器");
             }
+            for (IMessageHandler handler : messageHandlerList) {
+                if (handler.canHandle(text)) {
+                    str = handler.handle(msg, listenerContext);
+                    handleFlag = true;
+                    break;
+                }
+            }
+            //如果未能处理消息
+            if (!handleFlag) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("未能找到能处理[{}]的处理器", text);
+                }
+                sender.SENDER.sendGroupMsg(msg, "指令错误，请按正确格式发送");
+                return;
+            }
+            assert str != null;
+            sender.SENDER.sendGroupMsg(msg, str);
+            return;
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("消息未在指定群发送");
         }
     }
 
-    /**
-     * 根据消息文本获取方法名称
-     *
-     * @param text 消息文本
-     * @return 对应方法名称
-     * @since 1.0
-     */
-    private String getAction(String text) {
-        return actionMap.entrySet().stream()
-                .filter(a -> text.contains(a.getKey().substring(2)))
-                .map(Map.Entry::getValue)
-                .collect(Collectors.toList())
-                .get(0);
-    }
-
-    public Map<String, String> getActionMap() {
-        return actionMap;
-    }
-
-    public void setActionMap(Map<String, String> actionMap) {
-        this.actionMap = actionMap;
-    }
 
     public DormitoryService getDormitoryService() {
         return dormitoryService;
@@ -98,5 +97,13 @@ public class BaseListener {
 
     public void setDormitoryService(DormitoryService dormitoryService) {
         this.dormitoryService = dormitoryService;
+    }
+
+    public List<IMessageHandler> getMessageHandlerList() {
+        return messageHandlerList;
+    }
+
+    public void setMessageHandlerList(List<IMessageHandler> messageHandlerList) {
+        this.messageHandlerList = messageHandlerList;
     }
 }
