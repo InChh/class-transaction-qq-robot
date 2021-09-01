@@ -1,0 +1,32 @@
+class-transaction-qq-robot:
+  dormitories:
+    dormitory-list:
+      - buildingId: 13
+        roomId: 101
+        dormMasterCode: 2319397152
+        totalPeople: 4
+      - buildingId: 13
+        roomId: 102
+        dormMasterCode: 2319397152
+        totalPeople: 2
+      - buildingId: 13
+        roomId: 103
+        dormMasterCode: 2319397152
+        totalPeople: 4
+  students:
+    student-list:
+      - id: 8210200101
+        name: 秦浩然
+        code: 2816340671
+        role: student
+      - id: 8210200115
+        name: 刘宏伟
+        code: 2319397152
+        role: monitor
+  dorm-group-name: test
+  schedule:
+    start-time-cron: 0 */3 * * * ?
+    tip-time-cron: 0 */1 * * * ?
+  time:
+    start-time-str: "1:00:02"
+    end-time-str: "22:30:00"

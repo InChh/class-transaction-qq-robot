@@ -2,6 +2,7 @@ package com.github.classtransactionqqrobot.common.util;
 
 import com.github.classtransactionqqrobot.entity.Dormitory;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class MessageUtils {
      */
     public static String format(List<Dormitory> list) {
         final StringBuilder stringBuilder = new StringBuilder()
-                .append(new Date())
+                .append(LocalDateTime.now())
                 .append("\n");
         list.forEach(e -> stringBuilder.append(e).append("\n"));
         return stringBuilder.toString();

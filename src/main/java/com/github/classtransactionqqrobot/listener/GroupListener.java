@@ -1,5 +1,6 @@
 package com.github.classtransactionqqrobot.listener;
 
+import com.github.classtransactionqqrobot.common.util.TimeUtil;
 import com.github.classtransactionqqrobot.handler.IMessageHandler;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
@@ -44,6 +45,11 @@ public class GroupListener {
     @OnGroup
     @Filter(value = "#", matchType = MatchType.STARTS_WITH, trim = true)
     public void dispacher(GroupMsg msg, MsgSender sender, ListenerContext listenerContext) {
+        //时间检查
+        if (!TimeUtil.timeCheck()) {
+            sender.SENDER.sendGroupMsg(msg, "当前未在报寝时间段内");
+            return;
+        }
         //获取去掉前缀#后的消息文本
         final String text = Objects.requireNonNull(msg.getText()).replace("#", "");
         //消息是否已经经过处理的标志
