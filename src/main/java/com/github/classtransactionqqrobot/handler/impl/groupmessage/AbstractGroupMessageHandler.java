@@ -3,6 +3,7 @@ package com.github.classtransactionqqrobot.handler.impl.groupmessage;
 import com.github.classtransactionqqrobot.handler.IMessageHandler;
 import com.github.classtransactionqqrobot.handler.impl.DefaultGroupMessageHandlerPostProcesser;
 import com.github.classtransactionqqrobot.service.DormitoryService;
+import com.github.classtransactionqqrobot.service.StudentService;
 import love.forte.simbot.api.message.events.MsgGet;
 import love.forte.simbot.listener.ListenerContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public abstract class AbstractGroupMessageHandler implements IMessageHandler {
     @Autowired
     protected DormitoryService dormitoryService;
 
+    @Autowired
+    protected StudentService studentService;
+
+    @Autowired
     private DefaultGroupMessageHandlerPostProcesser groupMessagePostProcesser;
 
     @Override
@@ -29,7 +34,7 @@ public abstract class AbstractGroupMessageHandler implements IMessageHandler {
     /**
      * 解析消息内容，并做相应处理
      *
-     * @param msg             消息容器
+     * @param msg             监听消息
      * @param listenerContext 上下文
      */
     public abstract void doHandle(MsgGet msg, ListenerContext listenerContext);

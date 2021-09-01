@@ -58,10 +58,15 @@ public class GroupListener {
         String str = null;
         //判断是否为指定寝室群
         final String groupName = msg.getGroupInfo().getGroupName();
-        if (dormGroupName.equals(groupName)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("开始遍历消息处理器");
-            }
+        if (!dormGroupName.equals(groupName)) {
+            logger.warn("消息未在指定群发送");
+            return;
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("开始遍历消息处理器");
+        }
+        try {
             for (IMessageHandler handler : messageHandlerList) {
                 if (handler.canHandle(text)) {
                     str = handler.handle(msg, listenerContext);
@@ -69,20 +74,18 @@ public class GroupListener {
                     break;
                 }
             }
-            //如果未能处理消息
-            if (!handleFlag) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("未能找到能处理[{}]的处理器", text);
-                }
-                sender.SENDER.sendGroupMsg(msg, "指令错误，请按正确格式发送");
-                return;
+        } catch (Exception e) {
+            e.printStackTrace();
+            sender.SENDER.sendGroupMsg(msg, "出现异常：" + e.getMessage());
+        }
+        //如果未能处理消息
+        if (!handleFlag) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("未能找到能处理[{}]的处理器", text);
             }
-            assert str != null;
-            sender.SENDER.sendGroupMsg(msg, str);
             return;
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("消息未在指定群发送");
-        }
+        //发送消息
+        sender.SENDER.sendGroupMsg(msg, str);
     }
 }
