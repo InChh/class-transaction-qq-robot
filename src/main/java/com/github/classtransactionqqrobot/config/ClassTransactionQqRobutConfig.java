@@ -4,10 +4,15 @@ import com.github.classtransactionqqrobot.common.util.Dormitories;
 import com.github.classtransactionqqrobot.common.util.Students;
 import com.github.classtransactionqqrobot.handler.MessageHandlerPostProcessor;
 import com.github.classtransactionqqrobot.handler.impl.DefaultGroupMessageHandlerPostProcesser;
+import love.forte.common.ioc.annotation.Beans;
+import love.forte.simbot.spring.autoconfigure.SimbotAppConfiguration;
+import love.forte.simbot.spring.autoconfigure.SpringDependBeanFactory;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * 机器人应用程序自动配置类
@@ -15,26 +20,12 @@ import org.springframework.context.annotation.Configuration;
  * @author In_Chh
  */
 @Configuration
-@EnableConfigurationProperties(ClassTransactionQqRobotProperties.class)
-public class ClassTransactionQqRobutAutoConfiguration {
-    @Bean
-    public Dormitories dormitories(ClassTransactionQqRobotProperties properties) {
-        return properties.getDormitories();
-    }
+@ConfigurationProperties(prefix ="class-transaction-qq-robot")
+public class ClassTransactionQqRobutConfig {
 
     @Bean
-    public Students students(ClassTransactionQqRobotProperties properties) {
-        return properties.getStudents();
-    }
-
-    @Bean
-    public String dormGroupName(ClassTransactionQqRobotProperties properties) {
-        return properties.getDormGroupName();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(MessageHandlerPostProcessor.class)
     public DefaultGroupMessageHandlerPostProcesser defaultGroupMessagePostProcesser() {
         return new DefaultGroupMessageHandlerPostProcesser();
     }
+
 }

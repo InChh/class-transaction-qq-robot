@@ -10,6 +10,7 @@ import love.forte.simbot.listener.ListenerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,18 +27,11 @@ public class GroupListener {
     /**
      * 消息处理器列表
      */
+    @Autowired
     private List<IMessageHandler> messageHandlerList;
 
+    @Value("${class-transaction-qq-robot.dorm-group-name}")
     private String dormGroupName;
-
-    public GroupListener() {
-    }
-
-    @Autowired
-    public GroupListener(List<IMessageHandler> messageHandlerList, String dormGroupName) {
-        this.messageHandlerList = messageHandlerList;
-        this.dormGroupName = dormGroupName;
-    }
 
     /**
      * 监听并处理寝室群消息
@@ -58,10 +52,15 @@ public class GroupListener {
         String str = null;
         //判断是否为指定寝室群
         final String groupName = msg.getGroupInfo().getGroupName();
-        if (dormGroupName.equals(groupName)) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("开始遍历消息处理器");
-            }
+        if (!dormGroupName.equals(groupName)) {
+            logger.warn("消息未在指定群发送");
+            return;
+        }
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("开始遍历消息处理器");
+        }
+        try {
             for (IMessageHandler handler : messageHandlerList) {
                 if (handler.canHandle(text)) {
                     str = handler.handle(msg, listenerContext);
@@ -74,15 +73,29 @@ public class GroupListener {
                 if (logger.isDebugEnabled()) {
                     logger.debug("未能找到能处理[{}]的处理器", text);
                 }
-                sender.SENDER.sendGroupMsg(msg, "指令错误，请按正确格式发送");
-                return;
+                str = "未知指令";
             }
-            assert str != null;
-            sender.SENDER.sendGroupMsg(msg, str);
-            return;
+        } catch (Exception e) {
+            e.printStackTrace();
+            str = e.getMessage();
         }
-        if (logger.isDebugEnabled()) {
-            logger.debug("消息未在指定群发送");
-        }
+        //发送消息
+        sender.SENDER.sendGroupMsg(msg, str);
+    }
+
+    public List<IMessageHandler> getMessageHandlerList() {
+        return messageHandlerList;
+    }
+
+    public void setMessageHandlerList(List<IMessageHandler> messageHandlerList) {
+        this.messageHandlerList = messageHandlerList;
+    }
+
+    public String getDormGroupName() {
+        return dormGroupName;
+    }
+
+    public void setDormGroupName(String dormGroupName) {
+        this.dormGroupName = dormGroupName;
     }
 }

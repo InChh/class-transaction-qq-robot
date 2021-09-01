@@ -1,5 +1,6 @@
 package com.github.classtransactionqqrobot.handler;
 
+import com.github.classtransactionqqrobot.exception.PermissionDeniedException;
 import love.forte.simbot.api.message.events.MsgGet;
 import love.forte.simbot.listener.ListenerContext;
 
@@ -24,8 +25,9 @@ public interface IMessageHandler {
      *
      * @param msg             监听消息
      * @param listenerContext 上下文
+     * @throws PermissionDeniedException 权限不足时抛出
      * @since 1.0
      * @return 返回的消息字符串
      */
-    String handle(MsgGet msg, ListenerContext listenerContext);
+    String handle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException;
 }

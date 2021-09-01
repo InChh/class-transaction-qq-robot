@@ -106,8 +106,14 @@ public class Dormitory {
                 .append(roomId).append(" ")
                 .append(currentPeople).append("/").append(totalPeople);
         if (peopleNotReachList.size() != 0) {
-            s.append("，").append("未归").append(peopleNotReachList);
+            s.append("，").append("未归：");
+            peopleNotReachList.forEach(e -> s.append(e.getName()).append(" "));
         }
         return s.toString();
+    }
+
+    public void reset() {
+        this.currentPeople = 0;
+        this.peopleNotReachList.clear();
     }
 }

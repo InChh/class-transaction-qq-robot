@@ -9,19 +9,19 @@ public class Student {
     /**
      * 学号
      */
-    private String id;
+    private String id = "";
     /**
      * 学生姓名
      */
-    private String name;
+    private String name = "";
     /**
      * 学生qq号
      */
-    private String code;
+    private String code = "";
     /**
      * 学生职务
      */
-    private ClassRole role;
+    private ClassRole role = ClassRole.STUDENT;
 
     public String getName() {
         return name;

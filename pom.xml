@@ -17,7 +17,7 @@
     <description>班长偷懒用的qq机器人，用于统计归寝信息，发送班级通知、汇总班级同学文件</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <simbot.version>2.2.0</simbot.version>
     </properties>
     <dependencies>
@@ -47,6 +47,10 @@
             <groupId>love.forte.simple-robot</groupId>
             <artifactId>component-mirai-spring-boot-starter</artifactId>
             <version>${simbot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 
