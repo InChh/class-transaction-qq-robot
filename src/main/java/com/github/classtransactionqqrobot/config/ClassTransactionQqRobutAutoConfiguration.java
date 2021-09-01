@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(ClassTransactionQqRobotProperties.class)
 public class ClassTransactionQqRobutAutoConfiguration {
-
     @Bean
     public Dormitories dormitories(ClassTransactionQqRobotProperties properties) {
         return properties.getDormitories();
