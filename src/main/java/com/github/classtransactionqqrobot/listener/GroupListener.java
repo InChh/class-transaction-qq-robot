@@ -1,7 +1,6 @@
 package com.github.classtransactionqqrobot.listener;
 
 import com.github.classtransactionqqrobot.handler.IMessageHandler;
-import com.github.classtransactionqqrobot.service.DormitoryService;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
@@ -22,24 +21,21 @@ import java.util.Objects;
  * @author In_Chh
  */
 @Component
-public class BaseListener {
-    Logger logger = LoggerFactory.getLogger(BaseListener.class);
+public class GroupListener {
+    Logger logger = LoggerFactory.getLogger(GroupListener.class);
     /**
      * 消息处理器列表
      */
     private List<IMessageHandler> messageHandlerList;
 
-    protected DormitoryService dormitoryService;
-
     private String dormGroupName;
 
-    public BaseListener() {
+    public GroupListener() {
     }
 
     @Autowired
-    public BaseListener(List<IMessageHandler> messageHandlerList, DormitoryService dormitoryService, String dormGroupName) {
+    public GroupListener(List<IMessageHandler> messageHandlerList, String dormGroupName) {
         this.messageHandlerList = messageHandlerList;
-        this.dormitoryService = dormitoryService;
         this.dormGroupName = dormGroupName;
     }
 
@@ -88,22 +84,5 @@ public class BaseListener {
         if (logger.isDebugEnabled()) {
             logger.debug("消息未在指定群发送");
         }
-    }
-
-
-    public DormitoryService getDormitoryService() {
-        return dormitoryService;
-    }
-
-    public void setDormitoryService(DormitoryService dormitoryService) {
-        this.dormitoryService = dormitoryService;
-    }
-
-    public List<IMessageHandler> getMessageHandlerList() {
-        return messageHandlerList;
-    }
-
-    public void setMessageHandlerList(List<IMessageHandler> messageHandlerList) {
-        this.messageHandlerList = messageHandlerList;
     }
 }
