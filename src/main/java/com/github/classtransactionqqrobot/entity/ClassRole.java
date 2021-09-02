@@ -22,7 +22,16 @@ public enum ClassRole {
     /**
      * 副班长
      */
-    MONITOR_DEPUTY(3, "副班长");
+    MONITOR_DEPUTY(3, "副班长"),
+
+    STUDY_COMMISSIONER(4,"学创委员"),
+
+    SPORT_COMMISSIONER(5, "体组委员"),
+
+    PUBLICITY_COMMISSIONER(6, "文宣委员"),
+
+    GENERAL_AFFAIRS_COMMISSIONER(7, "生心委员");
+
 
     ClassRole(Integer value, String name) {
     }
