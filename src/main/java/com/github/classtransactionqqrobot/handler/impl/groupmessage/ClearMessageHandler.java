@@ -19,11 +19,12 @@ public class ClearMessageHandler extends AbstractGroupMessageHandler{
     }
 
     @Override
-    public void doHandle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {
+    public String doHandle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {
         final Student student = studentService.getStudentByCode(msg.getAccountInfo().getAccountCode());
         if (student.getRole() != ClassRole.MONITOR && student.getRole() != ClassRole.MONITOR_DEPUTY) {
             throw new PermissionDeniedException();
         }
         dormitoryService.resetAll();
+        return "";
     }
 }

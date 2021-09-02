@@ -23,13 +23,21 @@ public enum ClassRole {
      * 副班长
      */
     MONITOR_DEPUTY(3, "副班长"),
-
+    /**
+     * 学创委员
+     */
     STUDY_COMMISSIONER(4,"学创委员"),
-
+    /**
+     * 体组委员
+     */
     SPORT_COMMISSIONER(5, "体组委员"),
-
+    /**
+     * 文宣委员
+     */
     PUBLICITY_COMMISSIONER(6, "文宣委员"),
-
+    /**
+     * 生心委员
+     */
     GENERAL_AFFAIRS_COMMISSIONER(7, "生心委员");
 
 

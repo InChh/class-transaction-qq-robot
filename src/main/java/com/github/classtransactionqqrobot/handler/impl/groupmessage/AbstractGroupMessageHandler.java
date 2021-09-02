@@ -8,6 +8,7 @@ import com.github.classtransactionqqrobot.service.StudentService;
 import love.forte.simbot.api.message.events.MsgGet;
 import love.forte.simbot.listener.ListenerContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 /**
  * 群消息处理器抽象类，用于处理群消息
@@ -27,9 +28,14 @@ public abstract class AbstractGroupMessageHandler implements IMessageHandler {
 
     @Override
     public String handle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {
+        String str;
         groupMessagePostProcesser.beforeHandle(msg, listenerContext);
-        doHandle(msg, listenerContext);
-        return groupMessagePostProcesser.afterHandle(listenerContext);
+        str = doHandle(msg, listenerContext);
+        final String afterHandle = groupMessagePostProcesser.afterHandle(listenerContext);
+        if (StringUtils.hasLength(afterHandle)) {
+            str=afterHandle;
+        }
+        return str;
     }
 
     /**
@@ -38,6 +44,7 @@ public abstract class AbstractGroupMessageHandler implements IMessageHandler {
      * @param msg             监听消息
      * @param listenerContext 上下文
      * @throws PermissionDeniedException 权限不足时抛出
+     * @return 消息文本
      */
-    public abstract void doHandle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException;
+    public abstract String doHandle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException;
 }

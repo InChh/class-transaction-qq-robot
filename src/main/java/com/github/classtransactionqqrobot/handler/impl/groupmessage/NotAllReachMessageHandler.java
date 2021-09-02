@@ -22,7 +22,7 @@ public class NotAllReachMessageHandler extends AbstractGroupMessageHandler {
     }
 
     @Override
-    public void doHandle(MsgGet msg, ListenerContext listenerContext) {
+    public String doHandle(MsgGet msg, ListenerContext listenerContext) {
         //获取消息文本
         final String text = msg.getText();
         //获取宿舍长qq号
@@ -36,5 +36,6 @@ public class NotAllReachMessageHandler extends AbstractGroupMessageHandler {
         final List<Student> peopleNotReach = studentService.getStudentsByNames(Arrays.asList(names));
         //设置宿舍长对应宿舍对象的未归人员名单
         dormitoryService.setPeopleNotReachList(masterCode, peopleNotReach);
+        return "";
     }
 }

@@ -1,7 +1,6 @@
 package com.github.classtransactionqqrobot.common.util;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
@@ -12,7 +11,6 @@ import java.time.LocalTime;
  * @author In_Chh
  */
 @Component
-@ConfigurationProperties(prefix = "class-transaction-qq-robot.time")
 public class TimeUtil {
     private static String startTimeStr;
     private static String endTimeStr;
