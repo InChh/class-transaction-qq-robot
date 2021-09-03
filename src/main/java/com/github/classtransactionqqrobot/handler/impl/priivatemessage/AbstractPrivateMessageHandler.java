@@ -18,7 +18,7 @@ public abstract class AbstractPrivateMessageHandler implements IMessageHandler {
     protected StudentService studentService;
 
     @Autowired
-    private PrivateMessageHandlerPostProcessor postProcesser;
+    private AbstractPrivateMessageHandlerPostProcessor postProcesser;
 
     @Override
     public String handle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {
