@@ -1,9 +1,7 @@
 package com.github.classtransactionqqrobot.config;
 
-import com.github.classtransactionqqrobot.common.util.TimeUtil;
-import com.github.classtransactionqqrobot.handler.impl.DefaultGroupMessageHandlerPostProcesser;
+import com.github.classtransactionqqrobot.handler.impl.groupmessage.DefaultGroupMessageHandlerPostProcesser;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

@@ -17,10 +17,20 @@ public abstract class AbstractPrivateMessageHandler implements IMessageHandler {
     @Autowired
     protected StudentService studentService;
 
+    @Autowired
+    private PrivateMessageHandlerPostProcessor postProcesser;
+
     @Override
     public String handle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {
         return doHandle(msg,listenerContext);
     }
 
+    /**
+     * 处理监听到的私聊消息
+     * @param msg 监听消息
+     * @param listenerContext 上下文
+     * @return 回复的消息内容
+     * @throws PermissionDeniedException 操作所需权限不足时抛出
+     */
     protected abstract String doHandle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException;
 }

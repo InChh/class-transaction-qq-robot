@@ -2,7 +2,6 @@ package com.github.classtransactionqqrobot.handler.impl.groupmessage;
 
 import com.github.classtransactionqqrobot.exception.PermissionDeniedException;
 import com.github.classtransactionqqrobot.handler.IMessageHandler;
-import com.github.classtransactionqqrobot.handler.impl.DefaultGroupMessageHandlerPostProcesser;
 import com.github.classtransactionqqrobot.service.DormitoryService;
 import com.github.classtransactionqqrobot.service.StudentService;
 import love.forte.simbot.api.message.events.MsgGet;
@@ -24,7 +23,7 @@ public abstract class AbstractGroupMessageHandler implements IMessageHandler {
     protected StudentService studentService;
 
     @Autowired
-    private DefaultGroupMessageHandlerPostProcesser groupMessagePostProcesser;
+    private GroupMessageHandlerPostProcesser groupMessagePostProcesser;
 
     @Override
     public String handle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {

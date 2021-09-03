@@ -1,12 +1,8 @@
-package com.github.classtransactionqqrobot.handler.impl;
+package com.github.classtransactionqqrobot.handler.impl.groupmessage;
 
 import com.github.classtransactionqqrobot.common.util.MessageUtils;
 import com.github.classtransactionqqrobot.entity.Dormitory;
-import com.github.classtransactionqqrobot.handler.MessageHandlerPostProcessor;
-import com.github.classtransactionqqrobot.service.DormitoryService;
-import love.forte.common.ioc.annotation.Depend;
 import love.forte.simbot.listener.ListenerContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -15,9 +11,7 @@ import java.util.List;
  *
  * @author In_Chh
  */
-public class DefaultGroupMessageHandlerPostProcesser implements MessageHandlerPostProcessor {
-    @Autowired
-    private DormitoryService dormitoryService;
+public class DefaultGroupMessageHandlerPostProcesser extends GroupMessageHandlerPostProcesser {
 
     @Override
     public String afterHandle(ListenerContext listenerContext) {
