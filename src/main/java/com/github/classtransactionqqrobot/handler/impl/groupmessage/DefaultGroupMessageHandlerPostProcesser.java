@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author In_Chh
  */
-public class DefaultGroupMessageHandlerPostProcesser extends GroupMessageHandlerPostProcesser {
+public class DefaultGroupMessageHandlerPostProcesser extends AbstractGroupMessageHandlerPostProcesser {
 
     @Override
     public String afterHandle(ListenerContext listenerContext) {

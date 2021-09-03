@@ -23,7 +23,7 @@ public abstract class AbstractGroupMessageHandler implements IMessageHandler {
     protected StudentService studentService;
 
     @Autowired
-    private GroupMessageHandlerPostProcesser groupMessagePostProcesser;
+    private AbstractGroupMessageHandlerPostProcesser groupMessagePostProcesser;
 
     @Override
     public String handle(MsgGet msg, ListenerContext listenerContext) throws PermissionDeniedException {
