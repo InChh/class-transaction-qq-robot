@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -44,6 +45,7 @@ public class SendNoticeMessageHandler extends AbstractPrivateMessageHandler {
         //TODO:将权限验证抽取出去
         final String accountCode = msg.getAccountInfo().getAccountCode();
         final Student student = studentService.getStudentByCode(accountCode);
+        final List<Student> studentList = studentService.getStudentList();
         if (student.getRole() == ClassRole.STUDENT) {
             throw new PermissionDeniedException();
         }
@@ -51,15 +53,45 @@ public class SendNoticeMessageHandler extends AbstractPrivateMessageHandler {
         final ScopeContext context = listenerContext.getContext(ListenerContext.Scope.GLOBAL);
         //获取通知列表
         List<Notice> notices = (List<Notice>) context.get("notices");
-        if (logger.isDebugEnabled()) {
-            logger.debug("获取到通知：{}", notices);
-        }
+        String replyStr = (String) context.get("replyStr");
+        logger.debug("获取到通知：{}", notices);
         if (notices != null) {
-            final Sender sender = botManager.getDefaultBot().getSender().SENDER;
-            //逐条发送通知
-            notices.forEach(e -> sender.sendPrivateMsg(msg, e.getContent()));
-            context.remove("notices");
+            send(studentList, notices);
+            //如果需要回复
+            if (replyStr != null) {
+                //拷贝学生名单
+                List<Student> notReplyStudentList = new LinkedList<>(studentList);
+                //除去发通知的班委
+                notReplyStudentList.remove(student);
+                //加入上下文中
+                context.set("notReplyStudentList", notReplyStudentList);
+            }
         }
+        clear(context);
         return "";
+    }
+
+    /**
+     * 发送通知
+     *
+     * @param studentList 学生集合
+     * @param notices     通知集合
+     */
+    private void send(List<Student> studentList, List<Notice> notices) {
+        final Sender sender = botManager.getDefaultBot().getSender().SENDER;
+        //逐条给每个学生发送发送通知
+        studentList.stream()
+                .map(Student::getCode)
+                .forEach(code -> notices.forEach(e -> sender.sendPrivateMsg(code, e.getContent())));
+    }
+
+    /**
+     * 移除与编辑有关的相关状态
+     *
+     * @param context 上下文
+     */
+    private void clear(ScopeContext context) {
+        context.remove("editor");
+        context.remove("isEditing");
     }
 }

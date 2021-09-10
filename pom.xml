@@ -12,7 +12,7 @@
 
     <groupId>com.github</groupId>
     <artifactId>class-transaction-qq-robot</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>class-transaction-qq-robot</name>
     <description>班长偷懒用的qq机器人，用于统计归寝信息，发送班级通知、汇总班级同学文件</description>
 

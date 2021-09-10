@@ -2,7 +2,6 @@ package com.github.classtransactionqqrobot.service;
 
 import com.github.classtransactionqqrobot.common.util.Students;
 import com.github.classtransactionqqrobot.entity.Student;
-import love.forte.common.ioc.annotation.Beans;
 import love.forte.common.ioc.annotation.Depend;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +43,9 @@ public class StudentService {
      */
     public List<Student> getStudentsByNames(List<String> names) {
         return students.getStudentsByNames(names);
+    }
+
+    public List<Student> getStudentList() {
+        return students.getStudentList();
     }
 }

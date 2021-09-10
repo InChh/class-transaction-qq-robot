@@ -8,4 +8,5 @@ package com.github.classtransactionqqrobot.common.constant;
 public final class CommandConstant {
     public static final String EDIT_NOTICE_COMMAND = "#编辑通知";
     public static final String SEND_NOTICE_COMMAND = "#发送";
+    public static final String REPLY_FLAG = "请回复：";
 }
