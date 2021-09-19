@@ -2,6 +2,7 @@ package com.github.classtransactionqqrobot.listener;
 
 import com.github.classtransactionqqrobot.common.util.TimeUtil;
 import com.github.classtransactionqqrobot.handler.IMessageHandler;
+import com.github.classtransactionqqrobot.handler.impl.groupmessage.AbstractGroupMessageHandler;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.api.message.events.GroupMsg;
@@ -25,11 +26,15 @@ import java.util.Objects;
 @Component
 public class GroupListener {
     Logger logger = LoggerFactory.getLogger(GroupListener.class);
+
     /**
      * 消息处理器列表
      */
-    @Autowired
-    private List<IMessageHandler> messageHandlerList;
+    private final List<AbstractGroupMessageHandler> messageHandlerList;
+
+    public GroupListener(List<AbstractGroupMessageHandler> messageHandlerList) {
+        this.messageHandlerList = messageHandlerList;
+    }
 
     @Value("${class-transaction-qq-robot.dorm-group-name}")
     private String dormGroupName;
@@ -67,7 +72,7 @@ public class GroupListener {
             logger.debug("开始遍历消息处理器");
         }
         try {
-            for (IMessageHandler handler : messageHandlerList) {
+            for (AbstractGroupMessageHandler handler : messageHandlerList) {
                 if (handler.canHandle(text)) {
                     str = handler.handle(msg, listenerContext);
                     handleFlag = true;
@@ -87,14 +92,6 @@ public class GroupListener {
         }
         //发送消息
         sender.SENDER.sendGroupMsg(msg, str);
-    }
-
-    public List<IMessageHandler> getMessageHandlerList() {
-        return messageHandlerList;
-    }
-
-    public void setMessageHandlerList(List<IMessageHandler> messageHandlerList) {
-        this.messageHandlerList = messageHandlerList;
     }
 
     public String getDormGroupName() {

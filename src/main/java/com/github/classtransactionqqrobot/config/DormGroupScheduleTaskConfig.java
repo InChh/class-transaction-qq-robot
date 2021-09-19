@@ -18,9 +18,9 @@ import java.util.List;
  * 报寝定时任务配置类
  *
  * @author In_Chh
+ * @since 1.0
  */
 @Configuration
-@ConfigurationProperties(prefix = "class-transaction-qq-robot.schedule")
 @EnableScheduling
 public class DormGroupScheduleTaskConfig implements SchedulingConfigurer {
     @Autowired

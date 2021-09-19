@@ -1,13 +1,12 @@
 package com.github.classtransactionqqrobot.listener;
 
-import com.github.classtransactionqqrobot.handler.IMessageHandler;
+import com.github.classtransactionqqrobot.handler.impl.priivatemessage.AbstractPrivateMessageHandler;
 import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.listener.ListenerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -23,30 +22,23 @@ import java.util.List;
 public class PrivateListener {
     Logger logger = LoggerFactory.getLogger(PrivateListener.class);
 
-    private final List<IMessageHandler> messageHandlerList;
+    private final List<AbstractPrivateMessageHandler> messageHandlerList;
 
-    @Autowired
-    public PrivateListener(List<IMessageHandler> messageHandlerList) {
+    public PrivateListener(List<AbstractPrivateMessageHandler> messageHandlerList) {
         this.messageHandlerList = messageHandlerList;
     }
 
     @OnPrivate
     public void handleMessage(PrivateMsg msg, MsgSender sender, ListenerContext listenerContext) {
         final String text = msg.getText();
-        if (logger.isDebugEnabled()) {
-            logger.debug("监听到的消息内容为：{}", text);
-        }
+        logger.debug("监听到的消息内容为：{}", text);
         //回复的消息内容
         String str = "";
         try {
-            if (logger.isDebugEnabled()) {
-                logger.debug("开始遍历消息处理器");
-            }
-            for (IMessageHandler handler : messageHandlerList) {
+            logger.debug("开始遍历消息处理器");
+            for (AbstractPrivateMessageHandler handler : messageHandlerList) {
                 if (handler.canHandle(text)) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("{}开始处理", handler);
-                    }
+                    logger.debug("{}开始处理", handler);
                     str = handler.handle(msg, listenerContext);
                 }
             }

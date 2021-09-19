@@ -6,6 +6,7 @@ import com.github.classtransactionqqrobot.entity.Notice;
 import com.github.classtransactionqqrobot.entity.Student;
 import com.github.classtransactionqqrobot.exception.PermissionDeniedException;
 import love.forte.simbot.api.message.events.MsgGet;
+import love.forte.simbot.bot.BotManager;
 import love.forte.simbot.listener.ListenerContext;
 import love.forte.simbot.listener.ScopeContext;
 import org.slf4j.Logger;
@@ -23,7 +24,13 @@ import java.util.List;
  */
 @Component
 public class StartEditingNoticeMessageHandler extends AbstractPrivateMessageHandler {
-    Logger logger = LoggerFactory.getLogger(StartEditingNoticeMessageHandler.class);
+    private Logger logger = LoggerFactory.getLogger(StartEditingNoticeMessageHandler.class);
+
+    private final BotManager botManager;
+
+    public StartEditingNoticeMessageHandler(BotManager botManager) {
+        this.botManager = botManager;
+    }
 
     @Override
     public boolean canHandle(String text) {
@@ -54,6 +61,7 @@ public class StartEditingNoticeMessageHandler extends AbstractPrivateMessageHand
             context.set("notices", notices);
         }
         notices.clear();
-        return "已进入编辑模式";
+        botManager.getDefaultBot().getSender().SENDER.sendPrivateMsg(msg, "已进入编辑模式");
+        return "";
     }
 }

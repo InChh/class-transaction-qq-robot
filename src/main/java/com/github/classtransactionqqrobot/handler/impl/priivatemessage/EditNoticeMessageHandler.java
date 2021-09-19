@@ -7,6 +7,7 @@ import com.github.classtransactionqqrobot.entity.Student;
 import com.github.classtransactionqqrobot.exception.PermissionDeniedException;
 import love.forte.simbot.api.message.events.MsgGet;
 import love.forte.simbot.api.message.events.PrivateMsg;
+import love.forte.simbot.bot.BotManager;
 import love.forte.simbot.listener.ListenerContext;
 import love.forte.simbot.listener.ScopeContext;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,11 @@ import java.util.Optional;
 @Component
 public class EditNoticeMessageHandler extends AbstractPrivateMessageHandler {
 
+    private final BotManager botManager;
+
+    public EditNoticeMessageHandler(BotManager botManager) {
+        this.botManager = botManager;
+    }
 
     @Override
     public boolean canHandle(String text) {
@@ -43,11 +49,6 @@ public class EditNoticeMessageHandler extends AbstractPrivateMessageHandler {
         final String accountCode = privateMsg.getAccountInfo().getAccountCode();
         final Student student = studentService.getStudentByCode(accountCode);
         if (student.getRole() == ClassRole.STUDENT) {
-            return "";
-        }
-        //如果有其他人正在编辑，不作处理
-        Student editor = (Student) context.get("editor");
-        if (editor != null) {
             return "";
         }
         //获取编辑状态
@@ -73,6 +74,7 @@ public class EditNoticeMessageHandler extends AbstractPrivateMessageHandler {
         if (notices != null) {
             notices.add(new Notice(content, student));
         }
-        return "成功添加一条通知";
+        botManager.getDefaultBot().getSender().SENDER.sendPrivateMsg(msg, "成功添加一条通知");
+        return "";
     }
 }
